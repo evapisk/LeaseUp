@@ -8,6 +8,7 @@ export interface FilterState {
   categories: ViolationCategory[];
   risk: RiskPreset;
   criticalOnly: boolean;
+  closedOnly: boolean;
   minViolations: number;
 }
 
@@ -19,6 +20,7 @@ export const defaultFilters: FilterState = {
   categories: [],
   risk: "all",
   criticalOnly: false,
+  closedOnly: false,
   minViolations: VIOLATION_BOUNDS[0],
 };
 
@@ -40,6 +42,7 @@ export function filterListings(listings: Listing[], f: FilterState): Listing[] {
     if (f.borough && l.borough !== f.borough) return false;
     if (f.risk !== "all" && l.risk !== f.risk) return false;
     if (f.criticalOnly && l.critical === 0) return false;
+    if (f.closedOnly && !l.is_closed) return false;
     if (l.violations < f.minViolations) return false;
     if (
       f.categories.length &&

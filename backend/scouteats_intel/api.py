@@ -9,6 +9,7 @@ from sqlalchemy import or_, select
 
 from . import normalize as N
 from .db import SessionLocal, init_db
+from .local_sources import load_dohmh_csv, load_manhattan_closed, merge_listings
 from .hydration import (
     force_rehydrate,
     hydrate_query,
@@ -139,31 +140,15 @@ async def search(
     }
 
 
-@app.get("/listings")
-def listings(
-    limit: int = Query(5000, ge=1, le=50000),
-    closed_only: bool = True,
-) -> list[dict]:
-    """Establishments aggregated into the frontend's listing shape.
-
-    Returns one record per restaurant with violation counts, derived categories,
-    and a risk level — the same schema the static inspections.json uses.
-    """
+def _db_listings() -> list[dict]:
+    """Live Socrata establishments aggregated into the frontend's listing shape."""
     with SessionLocal() as session:
-        stmt = select(ScoutEatsEstablishment)
-        if closed_only:
-            stmt = stmt.where(ScoutEatsEstablishment.is_closed.is_(True))
-        stmt = stmt.order_by(
-            ScoutEatsEstablishment.last_inspection_date.desc()
-        ).limit(limit)
-        ests = list(session.scalars(stmt))
+        ests = list(session.scalars(select(ScoutEatsEstablishment)))
         ids = [e.id for e in ests]
-
-        # One query for all their violations; aggregate in Python (avoids N+1).
         agg: dict[int, dict] = {
             e.id: {"total": 0, "critical": 0, "categories": set()} for e in ests
         }
-        if ids:
+        if ids:  # one query for all violations; aggregate in Python (avoids N+1)
             vios = session.scalars(
                 select(ScoutEatsViolation).where(
                     ScoutEatsViolation.establishment_id.in_(ids)
@@ -198,9 +183,33 @@ def listings(
                         if e.last_inspection_date
                         else None
                     ),
+                    "cuisine": e.cuisine,
+                    "grade": e.latest_grade,
+                    "is_closed": e.is_closed,
+                    "sources": ["socrata_live"],
                 }
             )
         return out
+
+
+@app.get("/listings")
+def listings(
+    limit: int = Query(40000, ge=1, le=80000),
+    closed_only: bool = False,
+) -> list[dict]:
+    """Unified feed: live Socrata establishments merged with the local datasets
+    (full CSV-derived inspections + closed Manhattan list), deduped by CAMIS.
+
+    Each record carries `is_closed` and `sources` (which datasets contributed).
+    """
+    merged = merge_listings(
+        _db_listings(), load_dohmh_csv(), load_manhattan_closed()
+    )
+    if closed_only:
+        merged = [m for m in merged if m.get("is_closed")]
+    # Closed first, then most-flagged.
+    merged.sort(key=lambda m: (not m.get("is_closed"), -m.get("violations", 0)))
+    return merged[:limit]
 
 
 @app.get("/establishments/{establishment_id}")

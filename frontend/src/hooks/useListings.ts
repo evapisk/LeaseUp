@@ -9,7 +9,7 @@ const API_URL =
 
 async function fetchListings(): Promise<Listing[]> {
   const endpoint = API_URL
-    ? `${API_URL}/listings?limit=20000`
+    ? `${API_URL}/listings?limit=40000`
     : "/data/inspections.json";
   const res = await fetch(endpoint);
   if (!res.ok) throw new Error(`Failed to load inspections (${res.status})`);

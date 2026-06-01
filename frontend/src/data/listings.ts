@@ -25,6 +25,11 @@ export interface Listing {
   categories: ViolationCategory[];
   risk: RiskLevel;
   lastInspection: string | null;
+  // Present when served by the backend merge of multiple datasets.
+  cuisine?: string | null;
+  grade?: string | null;
+  is_closed?: boolean;
+  sources?: string[];
 }
 
 export const BOROUGHS = [

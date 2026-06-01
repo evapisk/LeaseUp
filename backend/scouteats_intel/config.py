@@ -3,8 +3,11 @@ SCOUTEATS_SOCRATA_APP_TOKEN, SCOUTEATS_DATABASE_URL)."""
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
@@ -29,6 +32,12 @@ class Settings(BaseSettings):
     # point at Postgres for JSONB columns, e.g.
     #   postgresql+psycopg://user:pass@localhost:5432/scouteats
     database_url: str = "sqlite+pysqlite:///./scouteats.db"
+
+    # Local datasets merged into /listings alongside the live Socrata feed.
+    local_inspections_path: str = str(
+        _REPO_ROOT / "frontend" / "public" / "data" / "inspections.json"
+    )
+    manhattan_closed_path: str = str(_REPO_ROOT / "MANHATTAN_CLOSED.json")
 
 
 @lru_cache

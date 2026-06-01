@@ -1,4 +1,4 @@
-import { MapPin, AlertTriangle, CalendarDays, ShieldAlert } from "lucide-react";
+import { MapPin, AlertTriangle, CalendarDays, ShieldAlert, Ban } from "lucide-react";
 import type { Listing, RiskLevel } from "@/data/listings";
 import { CATEGORY_LABELS, RISK_LABELS } from "@/data/listings";
 import { daysSince } from "@/hooks/useFilteredListings";
@@ -53,6 +53,13 @@ export function ListingCard({ listing }: { listing: Listing }) {
             violations
           </span>
         </div>
+
+        {listing.is_closed && (
+          <div className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-urgent px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-background">
+            <Ban className="h-3 w-3" />
+            Closed by DOHMH
+          </div>
+        )}
       </div>
 
       <div className="p-5">
@@ -66,6 +73,11 @@ export function ListingCard({ listing }: { listing: Listing }) {
               {listing.address} · {listing.borough} {listing.zip}
             </span>
           </div>
+          {listing.cuisine && (
+            <div className="mt-1.5 inline-flex rounded-full bg-mint/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-mint ring-1 ring-mint/20">
+              {listing.cuisine}
+            </div>
+          )}
         </div>
 
         <div className="mt-4 grid grid-cols-3 gap-2 border-t border-hairline pt-4 font-mono text-xs">

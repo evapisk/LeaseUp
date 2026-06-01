@@ -87,6 +87,18 @@ export function FiltersBar({ filters, setFilters, resultCount, totalCount }: Pro
           >
             critical only
           </button>
+          <button
+            onClick={() =>
+              setFilters({ ...filters, closedOnly: !filters.closedOnly })
+            }
+            className={`rounded-full px-3 py-1.5 font-mono text-xs transition-all ${
+              filters.closedOnly
+                ? "bg-urgent text-background"
+                : "hairline bg-surface/50 text-foreground/80 hover:bg-surface"
+            }`}
+          >
+            closed by DOHMH
+          </button>
         </div>
 
         {/* violation categories */}
