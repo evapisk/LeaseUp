@@ -1,0 +1,191 @@
+[
+  {
+    "restaurant_name": "272 UPTOWN PIZZA",
+    "address": "272 WEST 135 STREET Manhattan 10030",
+    "food_type": "Pizza",
+    "permit_number": "50091455",
+    "grade": null
+  },
+  {
+    "restaurant_name": "CHA CHA MATCHA",
+    "address": "501 5 AVENUE Manhattan 10017",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50102349",
+    "grade": null
+  },
+  {
+    "restaurant_name": "CHEF 28",
+    "address": "29 EAST 28 STREET Manhattan 10016",
+    "food_type": "Chinese",
+    "permit_number": "50121683",
+    "grade": null
+  },
+  {
+    "restaurant_name": "COSMIC CAT CAFE",
+    "address": "170 EAST 2 STREET Manhattan 10009",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50127254",
+    "grade": null
+  },
+  {
+    "restaurant_name": "CROWN CHICKEN N FRIES",
+    "address": "3853 BROADWAY Manhattan 10032",
+    "food_type": "Chicken",
+    "permit_number": "50179302",
+    "grade": null
+  },
+  {
+    "restaurant_name": "D'BICHOTE ANTOJITOS & MAS",
+    "address": "3515 BROADWAY Manhattan 10031",
+    "food_type": "Spanish",
+    "permit_number": "50154007",
+    "grade": null
+  },
+  {
+    "restaurant_name": "EASY CORNER",
+    "address": "101 WEST 136 STREET Manhattan 10030",
+    "food_type": "Caribbean",
+    "permit_number": "50094900",
+    "grade": null
+  },
+  {
+    "restaurant_name": "FRESH CURRY",
+    "address": "183 CHURCH STREET Manhattan 10007",
+    "food_type": "Bangladeshi",
+    "permit_number": "50001241",
+    "grade": null
+  },
+  {
+    "restaurant_name": "GLACE BY NOGLU",
+    "address": "30 ROCKEFELLER PLAZA Manhattan 10112",
+    "food_type": "Frozen Desserts",
+    "permit_number": "50182313",
+    "grade": null
+  },
+  {
+    "restaurant_name": "HARLEM AMOR",
+    "address": "2082 FREDERICK DOUGLASS BOULEVARD Manhattan 10026",
+    "food_type": "American",
+    "permit_number": "50176000",
+    "grade": null
+  },
+  {
+    "restaurant_name": "I LOVE BIBIMBAP",
+    "address": "1049 SAINT NICHOLAS AVENUE Manhattan 10032",
+    "food_type": "Korean",
+    "permit_number": "50135573",
+    "grade": null
+  },
+  {
+    "restaurant_name": "LAMB'S BREAD CAFE & INFUSED BAKERY",
+    "address": "2128 2 AVENUE Manhattan 10029",
+    "food_type": "American",
+    "permit_number": "50122175",
+    "grade": null
+  },
+  {
+    "restaurant_name": "LE PAIN QUOTIDIEN",
+    "address": "2098 BROADWAY Manhattan 10023",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50132754",
+    "grade": null
+  },
+  {
+    "restaurant_name": "LEE CHUNG CAFE",
+    "address": "82 MADISON STREET Manhattan 10002",
+    "food_type": "Chinese",
+    "permit_number": "41498672",
+    "grade": null
+  },
+  {
+    "restaurant_name": "LOS 2 CARNALES TAQUERIA DELI",
+    "address": "960 SAINT NICHOLAS AVENUE Manhattan 10032",
+    "food_type": "Mexican",
+    "permit_number": "50127123",
+    "grade": null
+  },
+  {
+    "restaurant_name": "MADMAN ESPRESSO",
+    "address": "770 BROADWAY Manhattan 10003",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50127888",
+    "grade": null
+  },
+  {
+    "restaurant_name": "NAPOLI PIZZA",
+    "address": "226 VARICK STREET Manhattan 10014",
+    "food_type": "Pizza",
+    "permit_number": "50118198",
+    "grade": null
+  },
+  {
+    "restaurant_name": "NARANJITO JUICE BAR",
+    "address": "507 WEST 125 STREET Manhattan 10027",
+    "food_type": "Juice, Smoothies, Fruit Salads",
+    "permit_number": "50094856",
+    "grade": null
+  },
+  {
+    "restaurant_name": "POP'S EAT-RITE",
+    "address": "123 SAINT MARKS PLACE Manhattan 10009",
+    "food_type": "Vegan",
+    "permit_number": "50106169",
+    "grade": null
+  },
+  {
+    "restaurant_name": "PUNTA CANA TO GO",
+    "address": "2102 AMSTERDAM AVENUE Manhattan 10032",
+    "food_type": "Spanish",
+    "permit_number": "50179754",
+    "grade": null
+  },
+  {
+    "restaurant_name": "RANGOLI EXQUISITE INDIAN CUISINE",
+    "address": "1393A 2 AVENUE Manhattan 10021",
+    "food_type": "Indian",
+    "permit_number": "50015570",
+    "grade": null
+  },
+  {
+    "restaurant_name": "SWEETEA",
+    "address": "167 MADISON AVENUE Manhattan 10016",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50130506",
+    "grade": null
+  },
+  {
+    "restaurant_name": "TACOS CANO",
+    "address": "968 AMSTERDAM AVENUE Manhattan 10025",
+    "food_type": "Mexican",
+    "permit_number": "50182397",
+    "grade": null
+  },
+  {
+    "restaurant_name": "TONGKATSU",
+    "address": "137 RIVINGTON STREET Manhattan 10002",
+    "food_type": "Japanese",
+    "permit_number": "50071556",
+    "grade": null
+  },
+  {
+    "restaurant_name": "UT47 MANHATTAN",
+    "address": "358 WEST 47 STREET Manhattan 10036",
+    "food_type": "Coffee/Tea",
+    "permit_number": "50072108",
+    "grade": null
+  },
+  {
+    "restaurant_name": "WESTSIDE BAGEL",
+    "address": "317 WEST 141 STREET Manhattan 10030",
+    "food_type": "Bagels/Pretzels",
+    "permit_number": "50169304",
+    "grade": null
+  },
+  {
+    "restaurant_name": "XPIZZA",
+    "address": "190 FRONT STREET Manhattan 10038",
+    "food_type": "Pizza",
+    "permit_number": "50125809",
+    "grade": null
+  }
+]
