@@ -39,7 +39,7 @@ export function Hero({ total = 27193 }: { total?: number }) {
         <div className="inline-flex items-center gap-2 rounded-full hairline bg-surface/60 px-3 py-1.5 backdrop-blur animate-fade-up">
           <Radar className="h-3.5 w-3.5 text-mint animate-pulse-soft" />
           <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-mint">
-            live signal · NYC health inspections
+            lease up · NYC violations, searchable
           </span>
         </div>
 
@@ -47,18 +47,18 @@ export function Hero({ total = 27193 }: { total?: number }) {
           className="mt-6 max-w-4xl text-5xl font-bold tracking-tight text-foreground sm:text-7xl animate-fade-up"
           style={{ animationDelay: "60ms" }}
         >
-          See which NYC kitchens{" "}
+          See which NYC spaces{" "}
           <span className="text-mint text-glow">cut corners</span>{" "}
-          before you order.
+          so you can grab them.
         </h1>
 
         <p
           className="mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl animate-fade-up"
           style={{ animationDelay: "160ms" }}
         >
-          ScoutEats turns the city's health-inspection record into one calm feed —
-          every flagged restaurant, its critical violations, and how recently the
-          inspectors stopped by.
+          LeaseUp turns the city's health-inspection record into one calm feed —
+          every flagged restaurant/cafe, its critical violations, and how recently the
+          inspectors stopped by. Find your physical spot in the city for your startup.
         </p>
 
         <div

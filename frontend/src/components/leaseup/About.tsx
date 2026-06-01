@@ -39,10 +39,10 @@ export function About() {
             </h2>
           </div>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            ScoutEats rolls up hundreds of thousands of DOHMH inspection lines
+            LeaseUp rolls up hundreds of thousands of DOHMH inspection lines
             into one record per restaurant — violation counts, critical flags,
             and category breakdowns — so you can search, filter, and see who's
-            been cited before you decide where to eat.
+            been cited so you can find the right spot for your startup.
           </p>
         </div>
 

@@ -8,7 +8,7 @@ export function Footer() {
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-mint/15 ring-1 ring-mint/40">
                 <span className="font-mono text-xs font-bold text-mint">S</span>
               </div>
-              <span className="text-lg font-semibold tracking-tight">ScoutEats</span>
+              <span className="text-lg font-semibold tracking-tight">LeaseUp</span>
             </div>
             <p className="mt-3 max-w-md text-sm text-muted-foreground">
               An open look at NYC restaurant health inspections. Data: NYC DOHMH
@@ -20,7 +20,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 border-t border-hairline pt-6 font-mono text-[11px] text-muted-foreground">
-          © {new Date().getFullYear()} ScoutEats — know before you go.
+          © {new Date().getFullYear()} LeaseUp — know before you go.
         </div>
       </div>
     </footer>
