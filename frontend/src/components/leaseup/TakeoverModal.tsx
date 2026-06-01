@@ -1,4 +1,4 @@
-import { ExternalLink, Ban, ShieldAlert, AlertCircle } from "lucide-react";
+import { Ban, ShieldAlert, AlertCircle } from "lucide-react";
 import type { Listing, RiskLevel } from "@/data/listings";
 import { RISK_LABELS } from "@/data/listings";
 import { useEnrichCard } from "@/hooks/useEnrichCard";
@@ -9,12 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RISK_TONE: Record<RiskLevel, string> = {
   high: "bg-urgent/15 text-urgent ring-1 ring-urgent/40",
@@ -48,8 +45,8 @@ export function TakeoverModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl gap-0 overflow-hidden p-0">
-        <DialogHeader className="space-y-3 p-6 pb-4">
+      <DialogContent className="flex max-h-[85vh] max-w-2xl flex-col gap-0 overflow-hidden p-0">
+        <DialogHeader className="shrink-0 space-y-3 p-6 pb-4">
           <DialogTitle className="pr-8 text-xl">{headline}</DialogTitle>
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -75,7 +72,7 @@ export function TakeoverModal({
           )}
         </DialogHeader>
 
-        <div className="border-t border-hairline">
+        <div className="flex-1 overflow-y-auto border-t border-hairline">
           {isLoading && <LoadingBody />}
           {isError && !data && (
             <div className="flex items-start gap-3 p-6 text-sm text-muted-foreground">
@@ -87,33 +84,19 @@ export function TakeoverModal({
             </div>
           )}
           {data && (
-            <ScrollArea className="max-h-[50vh]">
-              <ol className="space-y-3 p-6">
-                {data.takeover.steps.map((step) => (
-                  <StepRow key={step.order} step={step} />
-                ))}
-              </ol>
-            </ScrollArea>
+            <ol className="space-y-3 p-6">
+              {data.takeover.steps.map((step) => (
+                <StepRow key={step.order} step={step} />
+              ))}
+            </ol>
           )}
         </div>
 
-        <DialogFooter className="flex-col gap-3 border-t border-hairline p-6 sm:flex-row sm:items-center sm:justify-between">
-          {data?.enrichment.degraded && (
-            <p className="text-[11px] text-muted-foreground">
-              AI assessment unavailable — steps derived locally.
-            </p>
-          )}
-          <Button asChild className="sm:ml-auto">
-            <a
-              href={data?.takeover.codify_url ?? `https://codify.cafe/restaurants/${listing.id}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View more on codify.cafe
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
-        </DialogFooter>
+        <div className="shrink-0 border-t border-hairline px-6 py-3">
+          <p className="text-center font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            Analysis generated on-site
+          </p>
+        </div>
       </DialogContent>
     </Dialog>
   );

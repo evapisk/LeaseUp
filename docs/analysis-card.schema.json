@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scouteats/analysis-card.schema.json",
+  "title": "AnalysisCardPayload",
+  "description": "One restaurant card's data, formatted for handoff to an analysis endpoint (e.g. an LLM risk-assessment service). Summary-only payloads are valid: violations and compliance_events may be empty when only aggregates are available.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["restaurant", "summary"],
+  "properties": {
+    "schema_version": { "type": "string", "default": "1.0" },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this payload was assembled (UTC ISO-8601)."
+    },
+    "data_source": {
+      "type": "string",
+      "default": "NYC DOHMH Restaurant Inspection Results"
+    },
+    "dataset_id": {
+      "type": ["string", "null"],
+      "description": "Socrata dataset id, e.g. 43nn-pn8j.",
+      "default": "43nn-pn8j"
+    },
+    "sources": {
+      "type": "array",
+      "description": "Which datasets contributed this record.",
+      "items": {
+        "type": "string",
+        "enum": ["socrata_live", "dohmh_csv", "manhattan_closed"]
+      }
+    },
+    "restaurant": { "$ref": "#/$defs/RestaurantIdentity" },
+    "summary": { "$ref": "#/$defs/CardSummary" },
+    "violations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ViolationDetail" },
+      "default": []
+    },
+    "compliance_events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ComplianceEventDetail" },
+      "default": []
+    }
+  },
+  "$defs": {
+    "RiskLevel": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Derived from the number of critical violations."
+    },
+    "ViolationCategory": {
+      "type": "string",
+      "enum": [
+        "pests",
+        "temperature",
+        "hygiene",
+        "food-protection",
+        "equipment",
+        "administrative"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": ["critical", "not_critical"]
+    },
+    "ComplianceEventType": {
+      "type": "string",
+      "enum": ["closed", "re-closed", "re-opened"]
+    },
+    "RestaurantIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "camis": {
+          "type": ["string", "null"],
+          "description": "DOHMH unique establishment id."
+        },
+        "name": { "type": ["string", "null"] },
+        "address": { "type": ["string", "null"] },
+        "borough": {
+          "type": ["string", "null"],
+          "enum": ["Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island", null]
+        },
+        "zip": { "type": ["string", "null"] },
+        "cuisine": { "type": ["string", "null"] },
+        "latitude": { "type": ["number", "null"] },
+        "longitude": { "type": ["number", "null"] }
+      }
+    },
+    "CategoryBreakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "count"],
+      "properties": {
+        "category": { "$ref": "#/$defs/ViolationCategory" },
+        "count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "CardSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_violations", "critical_violations", "risk", "is_closed"],
+      "properties": {
+        "total_violations": { "type": "integer", "minimum": 0 },
+        "critical_violations": { "type": "integer", "minimum": 0 },
+        "risk": { "$ref": "#/$defs/RiskLevel" },
+        "is_closed": {
+          "type": "boolean",
+          "description": "True if ever Closed or re-closed by DOHMH."
+        },
+        "categories": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ViolationCategory" }
+        },
+        "category_breakdown": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CategoryBreakdown" }
+        },
+        "latest_grade": { "type": ["string", "null"] },
+        "latest_score": { "type": ["integer", "null"] },
+        "last_inspection_date": { "type": ["string", "null"], "format": "date" },
+        "last_closure_date": { "type": ["string", "null"], "format": "date" }
+      }
+    },
+    "ViolationDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category"],
+      "properties": {
+        "code": {
+          "type": ["string", "null"],
+          "description": "NYC DOHMH violation code, e.g. 04L."
+        },
+        "category": { "$ref": "#/$defs/ViolationCategory" },
+        "severity": {
+          "oneOf": [{ "$ref": "#/$defs/Severity" }, { "type": "null" }]
+        },
+        "status": {
+          "type": ["string", "null"],
+          "description": "cited | closed"
+        },
+        "description": { "type": ["string", "null"] },
+        "inspection_type": { "type": ["string", "null"] },
+        "issue_date": { "type": ["string", "null"], "format": "date" }
+      }
+    },
+    "ComplianceEventDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type"],
+      "properties": {
+        "event_type": { "$ref": "#/$defs/ComplianceEventType" },
+        "event_date": { "type": ["string", "null"], "format": "date" },
+        "action_text": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "1.0",
+      "generated_at": "2026-06-01T18:30:00Z",
+      "data_source": "NYC DOHMH Restaurant Inspection Results",
+      "dataset_id": "43nn-pn8j",
+      "sources": ["dohmh_csv", "socrata_live"],
+      "restaurant": {
+        "camis": "40365938",
+        "name": "Nancy's Restaurant",
+        "address": "255-41 JAMAICA AVENUE",
+        "borough": "Queens",
+        "zip": "11001",
+        "cuisine": "American",
+        "latitude": 40.727412703327,
+        "longitude": -73.709620966368
+      },
+      "summary": {
+        "total_violations": 4,
+        "critical_violations": 3,
+        "risk": "high",
+        "is_closed": true,
+        "categories": ["equipment", "hygiene", "pests"],
+        "category_breakdown": [
+          { "category": "pests", "count": 2 },
+          { "category": "hygiene", "count": 1 },
+          { "category": "equipment", "count": 1 }
+        ],
+        "latest_grade": null,
+        "latest_score": 65,
+        "last_inspection_date": "2023-01-12",
+        "last_closure_date": "2023-01-12"
+      },
+      "violations": [
+        {
+          "code": "08C",
+          "category": "pests",
+          "severity": "not_critical",
+          "status": "closed",
+          "description": "Pesticide not properly labeled or used by unlicensed individual.",
+          "inspection_type": "Cycle Inspection / Initial Inspection",
+          "issue_date": "2023-01-12"
+        }
+      ],
+      "compliance_events": [
+        {
+          "event_type": "closed",
+          "event_date": "2023-01-12",
+          "action_text": "Establishment Closed by DOHMH. Violations were cited in the following area(s) and those requiring immediate action were addressed."
+        }
+      ]
+    }
+  ]
+}
