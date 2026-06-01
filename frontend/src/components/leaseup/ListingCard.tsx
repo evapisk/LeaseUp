@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { MapPin, AlertTriangle, CalendarDays, ShieldAlert, Ban } from "lucide-react";
 import type { Listing, RiskLevel } from "@/data/listings";
 import { CATEGORY_LABELS, RISK_LABELS } from "@/data/listings";
 import { daysSince } from "@/hooks/useFilteredListings";
+import { TakeoverModal } from "./TakeoverModal";
 
 const RISK_TONE: Record<RiskLevel, string> = {
   high: "bg-urgent/15 text-urgent ring-urgent/40",
@@ -26,9 +28,23 @@ function lastInspectionLabel(iso: string | null): string {
 
 export function ListingCard({ listing }: { listing: Listing }) {
   const tone = RISK_TONE[listing.risk];
+  const [open, setOpen] = useState(false);
 
   return (
-    <article className="group relative overflow-hidden rounded-2xl hairline bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:glow-mint">
+    <>
+    <article
+      role="button"
+      tabIndex={0}
+      aria-label={`View takeover plan for ${listing.name}`}
+      onClick={() => setOpen(true)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setOpen(true);
+        }
+      }}
+      className="group relative cursor-pointer overflow-hidden rounded-2xl hairline bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:bg-surface hover:glow-mint focus:outline-none focus-visible:ring-2 focus-visible:ring-mint/60"
+    >
       {/* Risk-coded header (the inspection data has no photos). */}
       <div className="relative aspect-[5/2] overflow-hidden">
         <div className={`absolute inset-0 bg-gradient-to-br ${RISK_BAR[listing.risk]}`} />
@@ -105,6 +121,8 @@ export function ListingCard({ listing }: { listing: Listing }) {
         )}
       </div>
     </article>
+    <TakeoverModal listing={listing} open={open} onOpenChange={setOpen} />
+    </>
   );
 }
 

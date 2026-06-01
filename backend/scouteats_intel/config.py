@@ -39,6 +39,17 @@ class Settings(BaseSettings):
     )
     manhattan_closed_path: str = str(_REPO_ROOT / "MANHATTAN_CLOSED.json")
 
+    # Codify (codify.cafe = P2X Laravel api) AI enrichment integration.
+    # Absent token or unreachable host degrades gracefully to a local fallback.
+    codify_enabled: bool = True
+    codify_base_url: str = "https://api.codify.inc"
+    codify_token: str | None = None
+    codify_x_domain: str = "codify.cafe"  # the tenant value, NOT the host
+    codify_subproject_id: int | None = None
+    codify_pipe_name: str = "restaurant_lease_takeover"
+    codify_timeout_seconds: float = 20.0
+    codify_public_base_url: str = "https://codify.cafe"
+
 
 @lru_cache
 def get_settings() -> Settings:

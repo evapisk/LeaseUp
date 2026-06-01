@@ -9,6 +9,8 @@ from sqlalchemy import or_, select
 
 from . import normalize as N
 from .db import SessionLocal, init_db
+from .enrichment import enrich_card
+from .schemas import AnalysisCardPayload, EnrichResponse
 from .local_sources import load_dohmh_csv, load_manhattan_closed, merge_listings
 from .hydration import (
     force_rehydrate,
@@ -210,6 +212,17 @@ def listings(
     # Closed first, then most-flagged.
     merged.sort(key=lambda m: (not m.get("is_closed"), -m.get("violations", 0)))
     return merged[:limit]
+
+
+@app.post("/analysis/enrich", response_model=EnrichResponse)
+async def analysis_enrich(payload: AnalysisCardPayload) -> EnrichResponse:
+    """Enrich an analysis card against the data sources + codify.cafe AI.
+
+    Returns an EnrichResponse envelope (strictly-conformant `card` plus
+    `risk_assessment`, `takeover`, and `enrichment` siblings). Degrades to a
+    deterministic local fallback (never 5xx) on codify/Socrata failure.
+    """
+    return await enrich_card(payload)
 
 
 @app.get("/establishments/{establishment_id}")

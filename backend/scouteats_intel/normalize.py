@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from datetime import datetime
 
 # Identifier types we index for dedup / identity resolution.
@@ -127,6 +128,19 @@ def category_for_code(code: object) -> str:
     return _PREFIX_CATEGORY.get((str(code or "")).strip()[:2], "administrative")
 
 
+def category_breakdown(codes: Iterable[object] | None) -> dict[str, int]:
+    """Count violation categories for an iterable of codes.
+
+    Single-sources off ``category_for_code`` so the taxonomy stays in one place.
+    Returns a ``{category: count}`` dict (only categories that occur).
+    """
+    counts: dict[str, int] = {}
+    for code in codes or ():
+        cat = category_for_code(code)
+        counts[cat] = counts.get(cat, 0) + 1
+    return counts
+
+
 def risk_for(critical_count: int) -> str:
     """low / medium / high from the number of critical violations."""
     if critical_count == 0:
@@ -134,3 +148,25 @@ def risk_for(critical_count: int) -> str:
     if critical_count <= 2:
         return "medium"
     return "high"
+
+
+# Borough digit -> canonical display name (reuses _BOROUGH_DIGIT for aliases).
+_DIGIT_BOROUGH = {
+    "1": "Manhattan",
+    "2": "Bronx",
+    "3": "Brooklyn",
+    "4": "Queens",
+    "5": "Staten Island",
+}
+
+
+def canonical_borough(value: object) -> str | None:
+    """Map any borough name/code/alias to a canonical display name, or None.
+
+    Returns one of ``Manhattan``/``Brooklyn``/``Queens``/``Bronx``/
+    ``Staten Island``. Unknown / blank inputs return None.
+    """
+    digit = borough_digit(value)
+    if digit is None:
+        return None
+    return _DIGIT_BOROUGH.get(digit)
