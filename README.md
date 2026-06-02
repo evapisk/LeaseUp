@@ -1,10 +1,5 @@
 # LeaseUp — NYC restaurant inspections, visualized
 
-Combines the **NYC DOHMH restaurant inspection dataset** (this repo) with the
-**space-scout** React frontend (pulled from
-https://github.com/evapisk/space-scout.git, reskinned as *ScoutEats*) into one
-searchable, filterable visualization of restaurant health violations.
-
 ## Layout
 
 ```
